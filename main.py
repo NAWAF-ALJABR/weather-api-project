@@ -1,22 +1,33 @@
 import requests
-#الاحداثيات للرياض
-# Riyadh coordinates
-latitude = 24.71
-longitude = 46.67
+#اسم المدينه عشان نسحب الطقس الخاص بها من API
+city = input("Enter city name: ")
 
-url = (
+# Geocoding API
+geo_url = (
+    f"https://geocoding-api.open-meteo.com/v1/search?"
+    f"name={city}&count=1&language=en&format=json"
+)
+
+geo_response = requests.get(geo_url)
+geo_data = geo_response.json()
+#احداثيات المدينه
+# Get coordinates
+latitude = geo_data["results"][0]["latitude"]
+longitude = geo_data["results"][0]["longitude"]
+
+# Weather API
+weather_url = (
     f"https://api.open-meteo.com/v1/forecast?"
     f"latitude={latitude}&longitude={longitude}"
     f"&current=temperature_2m,wind_speed_10m"
 )
 
-response = requests.get(url)
+weather_response = requests.get(weather_url)
+weather_data = weather_response.json()
 
-data = response.json()
-
-temperature = data["current"]["temperature_2m"]
-wind_speed = data["current"]["wind_speed_10m"]
-
-print("\n=== Current Weather in Riyadh ===")
+temperature = weather_data["current"]["temperature_2m"]
+wind_speed = weather_data["current"]["wind_speed_10m"]
+#طباعة التفاصيل للحرارة وسرعة الرياح
+print(f"\n=== Current Weather in {city.title()} ===")
 print(f"Temperature : {temperature} °C")
 print(f"Wind Speed  : {wind_speed} km/h")
