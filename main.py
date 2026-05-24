@@ -1,5 +1,5 @@
 import requests
-
+#الاحداثيات للرياض
 # Riyadh coordinates
 latitude = 24.71
 longitude = 46.67
