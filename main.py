@@ -9,7 +9,7 @@ geo_url = (
 )
 
 geo_response = requests.get(geo_url)
-geo_data = geo_response.json()
+geo_data = geo_response.json()0
 #احداثيات المدينه
 # Get coordinates
 latitude = geo_data["results"][0]["latitude"]
